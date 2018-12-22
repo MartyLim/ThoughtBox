@@ -1,9 +1,0 @@
-{%extends 'layout.html'%}
-{%block content%}
-	{% for notes in notes %}
-		<h1>{{notes.title}}</h1>
-		<p>By {{notes.name}}</p>
-		<p>On {{notes.date}}</p>
-		<p>{{notes.content}}</p>
-	{% endfor %}
-{%endblock%}
