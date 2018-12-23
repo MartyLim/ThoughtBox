@@ -1,5 +1,5 @@
-
-.header a:hover {
-  background-color: #ddd;
-  color: black;
+.whattheheck {
+	border: 1px solid yellow;
+  	outline-style: solid;
+  	outline-color: invert;
 }

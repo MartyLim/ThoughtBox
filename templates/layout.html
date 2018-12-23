@@ -16,26 +16,39 @@
 	{% endif %}
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #27FBC3">
+	<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #90C8F5">
 		<a href="/" class="navbar-brand">ThoughtBox</a>
 		<button class="navbar-toggler" data-toggle="collapse" data-target="#menu">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="menu">
 	        <div class="navbar-nav mr-auto">
-	        	<a class="nav-item nav-link" href="/">Home</a>
-	        	<a class="nav-item nav-link" href="/publicnotes">Public Notes</a>
-	         	<a class="nav-item nav-link" href="/yournotes">Your Notes</a>
-	        	<a class="nav-item nav-link" href="/about">About</a>
+	        	<a class="nav-item nav-link" href="{{ url_for('hello') }}">Home</a>
+	        	<a class="nav-item nav-link" href="{{ url_for('pub') }}">Public Notes</a>
+	         	<a class="nav-item nav-link" href="{{ url_for('your') }}">Your Notes</a>
+	        </div>
+	        <div class="navbar-nav ml-auto">
+	        	<a class="nav-item nav-link" href="{{ url_for('login') }}">Retrieve Box</a>
+	        	<a class="nav-item nav-link" href="{{ url_for('register') }}">Create Box</a>
 	        </div>
 		
 		</div>
-		
 
 	</nav>
 
 	<div class="container">
+		{% with messages = get_flashed_messages(with_categories=true) %}
+			{% if messages %}
+				{% for category, message in messages %}
+					<div class="alert alert-{{category}}">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+
 		{%block content%} {%endblock%}
+
 	</div>
 
 	<!-- Optional JavaScript -->
