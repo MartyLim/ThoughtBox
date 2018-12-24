@@ -2,6 +2,7 @@ from flask import render_template, flash, url_for, redirect
 from box.forms import RegisterForm, LoginForm
 from box.models import User, Note
 from box import app, db, bcrypt
+from flask_login import login_user, current_user, logout_user, login_required
 
 notes = [
 	{
@@ -26,17 +27,15 @@ def hello():
 
 @app.route("/publicnotes")
 def pub():
-	return render_template('pub.html')
+	return render_template('pub.html', title='Public')
 
 @app.route("/yournotes")
+@login_required
 def your():
-	return render_template('your.html')
-	'''
-	if loggedin:
-		return render_template('your.html')
-	elif boolean field?? or something to differentiate the stuff idk ???? ------ >>>>> 
-		return render_template('login.html')
-	'''
+	if current_user.is_authenticated:
+		return render_template('your.html', title='Notes')
+	else: 
+		return redirect(url_for('login'))
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -60,10 +59,16 @@ def register():
 def login():
 	form = LoginForm()
 	if form.validate_on_submit():
-		#For testing purposes
-		if form.password.data == 'password':
-			flash(f'Your Box Has Been Retrieved!', 'success')
-			return redirect(url_for('your'))
-		else:
-			flash('Box Not Found', 'danger')
+		l = [i.password for i in User.query.all()]
+		for i in l:
+			if bcrypt.check_password_hash(i, form.password.data):
+				user = User.query.filter_by(password=i).first()
+				login_user(user, remember=form.remember.data)
+				return redirect(url_for('your'))
+		flash('Box Not Found', 'danger')
 	return render_template('login.html', title='Open', form=form)
+
+@app.route("/logout")
+def logout():
+	logout_user()
+	return redirect(url_for('hello'))
