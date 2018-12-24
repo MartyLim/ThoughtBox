@@ -1,7 +1,7 @@
 from flask import render_template, flash, url_for, redirect
 from box.forms import RegisterForm, LoginForm
 from box.models import User, Note
-from box import app
+from box import app, db, bcrypt
 
 notes = [
 	{
@@ -42,11 +42,18 @@ def your():
 def register():
 	form = RegisterForm()
 	if form.validate_on_submit():
-		if list({form.name.data})[0] == "":
-			flash(f'Box created for "anonymous"!', 'success')
+		x = ""
+		if form.name.data == "":
+			x = "anonymous"
+			flash(f'Box created for "anonymous"! Open your new box', 'success')
 		else:
-			flash(f'Box created for "{form.name.data}"!', 'success')
-		return redirect(url_for('your'))
+			x = form.name.data
+			flash(f'Box created for "{form.name.data}"! Open your new box', 'success')
+		hashed_pass = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+		newuser = User(name=x, password=hashed_pass)
+		db.session.add(newuser)
+		db.session.commit()
+		return redirect(url_for('login'))
 	return render_template('register.html', title='Create', form=form)
 
 @app.route("/login", methods=['GET', 'POST'])

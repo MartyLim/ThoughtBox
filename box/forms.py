@@ -1,6 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, SubmitField, BooleanField, StringField
-from wtforms.validators import DataRequired, Length, EqualTo
+from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
+from box import bcrypt
+from box.models import User
+
 
 class RegisterForm(FlaskForm):
 	name = StringField('Name (optional)')
@@ -11,6 +14,12 @@ class RegisterForm(FlaskForm):
 									validators=[DataRequired(), Length(max=20), EqualTo('password')])
 
 	submit = SubmitField('Create Box')
+
+	def validate_password(self, password):
+		l = [i.password for i in User.query.all()]
+		for i in l:
+			if bcrypt.check_password_hash(i, password.data):
+				raise ValidationError('Password not available')
 
 class LoginForm(FlaskForm):
 	password = PasswordField('Password', validators=[DataRequired(), Length(max=20)])
