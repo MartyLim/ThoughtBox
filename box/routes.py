@@ -1,5 +1,5 @@
 from flask import render_template, flash, url_for, redirect
-from box.forms import RegisterForm, LoginForm
+from box.forms import RegisterForm, LoginForm, NoteForm
 from box.models import User, Note
 from box import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
@@ -22,12 +22,12 @@ notes = [
 @app.route("/")
 @app.route("/home")
 def hello():
-    return render_template('home.html', notes=notes)
+    return render_template('home.html')
 
 
 @app.route("/publicnotes")
 def pub():
-	return render_template('pub.html', title='Public')
+	return render_template('pub.html', title='Public', notes=notes)
 
 @app.route("/yournotes")
 @login_required
@@ -72,3 +72,12 @@ def login():
 def logout():
 	logout_user()
 	return redirect(url_for('hello'))
+
+@app.route("/newnote", methods=['GET', 'POST'])
+@login_required
+def new_note():
+	form = NoteForm()
+	if form.validate_on_submit():
+		flash(f'Note has been added to your Box!', 'success')
+		return redirect(url_for('your'))
+	return render_template('newnote.html', title='Note', form=form)

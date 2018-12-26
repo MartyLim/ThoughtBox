@@ -1,5 +1,4 @@
-.whattheheck {
-	border: 1px solid yellow;
-  	outline-style: solid;
-  	outline-color: invert;
-}
+.bg-3 { 
+    background-color: #1abc9c;
+    color: #555555;
+  }

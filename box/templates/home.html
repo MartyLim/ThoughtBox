@@ -2,17 +2,33 @@
 
 {%block content%}
 
-	{% for note in notes %}
-		<article class="media content-section">
-		  <div class="media-body">
-		    <div class="article-metadata">
-		      <a class="mr-2" href="#">{{ note.name }}</a>
-		      <small class="text-muted">{{ note.date }}</small>
-		    </div>
-		    <h2><a class="article-title" href="#">{{ note.title }}</a></h2>
-		    <p class="article-content">{{ note.content }}</p>
-		  </div>
-		</article>
-	{% endfor %}
+	<div class="jumbotron mt-4">
+	  <h1 class="display-4">ThoughtBox</h1>
+	  <p class="lead"><em>Quick & Easy Note-Taking On The Web</em></p>
+	  <hr class="my-4">
+	  <p>Get Started With a Single Password</p>
+	  <p class="lead">
+	    <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}" role="button">Create Box</a>
+	  </p>
+	</div>
 
+	<div class="container-fluid text-center bg-transparent">    
+	  <h3 class="pt-4" style="color: #1abc9c">Features</h3><br>
+	  <div class="row">
+	    <div class="col-sm-4">
+	      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+	      <img src="birds1.jpg" class="img-responsive margin" style="width:100%" alt="Image">
+	    </div>
+	    <div class="col-sm-4"> 
+	      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+	      <img src="birds2.jpg" class="img-responsive margin" style="width:100%" alt="Image">
+	    </div>
+	    <div class="col-sm-4"> 
+	      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+	      <img src="birds3.jpg" class="img-responsive margin" style="width:100%" alt="Image">
+	    </div>
+	  </div>
+	</div>
+
+		
 {%endblock%}
