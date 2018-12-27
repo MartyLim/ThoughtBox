@@ -4,21 +4,6 @@ from box.models import User, Note
 from box import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 
-notes = [
-	{
-		'name':'Martin Lim',
-		'title':'project ideas',
-		'content':'quick note taking web application',
-		'date':'12-20-2018'
-	},
-	{
-		'name':'John Doe',
-		'title':"grocery list",
-		'content':'apples, tuna, chocolate',
-		'date':'12-21-2018'
-	}
-]
-
 @app.route("/")
 @app.route("/home")
 def hello():
@@ -27,6 +12,7 @@ def hello():
 
 @app.route("/publicnotes")
 def pub():
+	notes = Note.query.all()
 	return render_template('pub.html', title='Public', notes=notes)
 
 @app.route("/yournotes")
@@ -78,6 +64,9 @@ def logout():
 def new_note():
 	form = NoteForm()
 	if form.validate_on_submit():
+		note = Note(title=form.title.data, content=form.content.data, author=current_user)
+		db.session.add(note)
+		db.session.commit()
 		flash(f'Note has been added to your Box!', 'success')
 		return redirect(url_for('your'))
 	return render_template('newnote.html', title='Note', form=form)
