@@ -25,8 +25,7 @@
 		<div class="collapse navbar-collapse" id="menu">
 	        <div class="navbar-nav mr-auto">
 	        	<a class="nav-item nav-link" href="{{ url_for('hello') }}">Home</a>
-	        	<a class="nav-item nav-link" href="{{ url_for('pub') }}">Public Notes</a>
-	         	<a class="nav-item nav-link" href="{{ url_for('your') }}">Your Notes</a>
+	         	<a class="nav-item nav-link" href="{{ url_for('your') }}">Notes</a>
 	        </div>
 	        <div class="navbar-nav ml-auto">
 	        	{% if current_user.is_authenticated %}

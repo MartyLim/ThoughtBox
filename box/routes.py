@@ -9,15 +9,10 @@ from flask_login import login_user, current_user, logout_user, login_required
 def hello():
     return render_template('home.html')
 
-
-@app.route("/publicnotes")
-def pub():
-	notes = Note.query.all()
-	return render_template('pub.html', title='Public', notes=notes)
-
 @app.route("/yournotes")
 @login_required
 def your():
+	note = Note.query.all() #make so only notes of the user that is logged in 
 	if current_user.is_authenticated:
 		return render_template('your.html', title='Notes')
 	else: 
@@ -70,3 +65,9 @@ def new_note():
 		flash(f'Note has been added to your Box!', 'success')
 		return redirect(url_for('your'))
 	return render_template('newnote.html', title='Note', form=form)
+
+
+@app.route("/note/<int:note_id>")
+def note(note_id):
+	note = Note.query.get_or_404(note_id)
+	return render_template('note.html', title=note.title, note=note)
