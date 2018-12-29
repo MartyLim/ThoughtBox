@@ -1,15 +1,15 @@
 {%extends 'layout.html'%}
 
 {%block content%}
-
+	
+	<h2 class="container">{{ current_user.name }}'s Box</h2>
 	{% for note in notes %}
 		<article class="media content-section">
 		  <div class="media-body">
 		    <div class="article-metadata">
-		      <a class="mr-2" href="#">{{ note.author.name }}</a>
 		      <small class="text-muted">{{ note.date_posted.strftime('%m-%d-%Y') }}</small>
 		    </div>
-		    <h2><a class="article-title" href="#">{{ note.title }}</a></h2>
+		    <h4><a class="article-title" href="#">{{ note.title }}</a></h4>
 		    <p class="article-content">{{ note.content }}</p>
 		  </div>
 		</article>

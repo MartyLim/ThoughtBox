@@ -12,9 +12,9 @@ def hello():
 @app.route("/yournotes")
 @login_required
 def your():
-	note = Note.query.all() #make so only notes of the user that is logged in 
+	notes = Note.query.all() #make so only notes of the user that is logged in 
 	if current_user.is_authenticated:
-		return render_template('your.html', title='Notes')
+		return render_template('your.html', title='Notes', notes=notes)
 	else: 
 		return redirect(url_for('login'))
 
