@@ -30,7 +30,7 @@ def register():
 			x = form.name.data
 			flash(f'Box created for "{form.name.data}"! Open your new box', 'success')
 		hashed_pass = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-		newuser = User(name=x, password=hashed_pass)
+		newuser = User(name=x, username=form.username.data, password=hashed_pass)
 		db.session.add(newuser)
 		db.session.commit()
 		return redirect(url_for('login'))
@@ -40,13 +40,12 @@ def register():
 def login():
 	form = LoginForm()
 	if form.validate_on_submit():
-		l = [i.password for i in User.query.all()]
-		for i in l:
-			if bcrypt.check_password_hash(i, form.password.data):
-				user = User.query.filter_by(password=i).first()
-				login_user(user, remember=form.remember.data)
-				return redirect(url_for('your'))
-		flash('Box Not Found', 'danger')
+		user = User.query.filter_by(username=form.username.data).first()
+		if user and bcrypt.check_password_hash(user.password, form.password.data):
+			login_user(user, remember=form.remember.data)
+			return redirect(url_for('your'))
+		else:
+			flash('Box Not Found', 'danger')
 	return render_template('login.html', title='Open', form=form)
 
 @app.route("/logout")

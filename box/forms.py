@@ -8,6 +8,8 @@ from box.models import User
 class RegisterForm(FlaskForm):
 	name = StringField('Name (optional)')
 
+	username = StringField('Username', validators=[DataRequired(), Length(min=3, max=20)])
+
 	password = PasswordField('Password', validators=[DataRequired(), Length(max=20)])
 
 	password_confirm = PasswordField('Confirm Password', 
@@ -15,13 +17,14 @@ class RegisterForm(FlaskForm):
 
 	submit = SubmitField('Create Box')
 
-	def validate_password(self, password):
-		l = [i.password for i in User.query.all()]
-		for i in l:
-			if bcrypt.check_password_hash(i, password.data):
-				raise ValidationError('Password not available')
+	def validate_username(self, password):
+		yes = User.query.filter_by(username=username.data).first()
+		if yes:
+			raise ValidationError('Username not available')
 
 class LoginForm(FlaskForm):
+	username = StringField('Username', validators=[DataRequired(), Length(max=20)])
+
 	password = PasswordField('Password', validators=[DataRequired(), Length(max=20)])
 
 	remember = BooleanField('Remember Me')

@@ -9,12 +9,13 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(20), unique=False, nullable=False, default='anonymous')
-	password = db.Column(db.String(20), unique=True, nullable=False)
+	username = db.Column(db.String(20), unique=True, nullable=False)
+	password = db.Column(db.String(20), unique=False, nullable=False)
 
 	notes = db.relationship('Note', backref='author', lazy=True)
 
 	def __repr__(self):
-		return f"User('{self.name}', '{self.password}')"
+		return f"User('{self.name}', '{self.username}', '{self.password}')"
 
 class Note(db.Model):
 	id = db.Column(db.Integer, primary_key=True)

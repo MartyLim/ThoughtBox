@@ -9,7 +9,9 @@
 		    <div class="article-metadata">
 		      <small class="text-muted">{{ note.date_posted.strftime('%m-%d-%Y') }}</small>
 		    </div>
-		    <h4><a class="article-title" href="#">{{ note.title }}</a></h4>
+		    <h4>
+		   		<a class="article-title" href="{{ url_for('note', note_id=note.id) }}">{{ note.title }}</a>
+		   	</h4>
 		    <p class="article-content">{{ note.content }}</p>
 		  </div>
 		</article>

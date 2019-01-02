@@ -2,17 +2,16 @@
 
 {%block content%}
 
-	{% for note in notes %}
-		<article class="media content-section">
-		  <div class="media-body">
-		    <div class="article-metadata">
-		      <a class="mr-2" href="#">{{ note.author.name }}</a>
-		      <small class="text-muted">{{ note.date_posted.strftime('%m-%d-%Y') }}</small>
-		    </div>
-		    <h4>{{ note.title }}</h4>
-		    <p class="article-content">{{ note.content }}</p>
-		  </div>
-		</article>
-	{% endfor %}
+
+	<article class="media content-section">
+	  <div class="media-body">
+	    <div class="article-metadata">
+	      <a class="mr-2" href="#">{{ note.author.name }}</a>
+	      <small class="text-muted">{{ note.date_posted.strftime('%m-%d-%Y') }}</small>
+	    </div>
+	    <h4 class="article-title">{{ note.title }}</h4>
+	    <p class="article-content">{{ note.content }}</p>
+	  </div>
+	</article>
 
 {%endblock%}
