@@ -17,7 +17,7 @@ class RegisterForm(FlaskForm):
 
 	submit = SubmitField('Create Box')
 
-	def validate_username(self, password):
+	def validate_username(self, username):
 		yes = User.query.filter_by(username=username.data).first()
 		if yes:
 			raise ValidationError('Username not available')
